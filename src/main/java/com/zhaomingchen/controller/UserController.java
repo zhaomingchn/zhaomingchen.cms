@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserController {
 	
 	
-	@RequestMapping("list.do")
+	@RequestMapping("index.do")
 	public String login(Model m) {
 		
 		
 		m.addAttribute("name","沾上干");
 		
-		return "list";
+		return "/admin/index";
 	}
 
 	
