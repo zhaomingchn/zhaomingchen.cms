@@ -2,7 +2,9 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zmc.mapper.MoveMapper">
+<mapper namespace="com.zhaomingchen.dao.ChannelDao">
 
-
+ <select id="getChannel" resultType="Channel">
+ select * from cms_channel
+ </select>
 </mapper>
