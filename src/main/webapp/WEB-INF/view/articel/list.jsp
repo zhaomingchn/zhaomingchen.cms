@@ -32,7 +32,7 @@
 		<div>
 			<nav aria-label="...">
 			  <ul class="pager">
-			    <li><a href="Javascript:upById(${article.id})">上一篇</a></li>
+			    <li><a href="upById?id=${article.id}">上一篇</a></li>
 			    <li><a href="#">下一篇</a></li>
 			  </ul>
 			</nav>
@@ -44,12 +44,17 @@
 
 <script type="text/javascript">
  
- function upById(id){
-	 
-	 location.load(url)
-	
-	 
- }
+  $(function(){
+	  location.reload();
+	    var i=${num};
+	    var msg=${msg};
+	  if(i==1){
+		  alert(msg);
+	  }
+	  
+  })
+      
+ 
 
 </script>
 </body>

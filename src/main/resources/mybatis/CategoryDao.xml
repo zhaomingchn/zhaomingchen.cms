@@ -7,6 +7,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  <select id="getByid" resultType="Category">
    select * from  cms_category where id=${value};
  </select>
+ <select id="getCategoryDao" resultType="Category">
+ 
+  select cms_category.* from cms_category left join cms_channel on cms_category.channel_id=cms_channel.id where cms_channel.id=${value}
+ </select>
  
  
 

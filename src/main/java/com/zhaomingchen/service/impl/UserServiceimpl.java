@@ -45,6 +45,14 @@ public class UserServiceimpl implements UserService {
 		// TODO Auto-generated method stub
 		return dao.updateLocked(id,lock);
 	}
+
+	@Override
+	public User byName(String name) {
+		// TODO Auto-generated method stub
+		return dao.byName(name);
+		
+		
+	}
 	
 	
 	

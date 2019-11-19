@@ -2,12 +2,21 @@ package com.zhaomingchen.service;
 
 import java.util.List;
 
+import com.github.pagehelper.PageInfo;
 import com.zhaomingchen.entity.Article;
 
 public interface ArticleService {
 
+	// 获取最新文章
 	List<Article> getArticel();
 
+	// 获取单个文章
 	Article getArticelByid(Integer id);
+
+	// 获取热门文章下的文章
+	 PageInfo gethorList(int pageNum);
+
+	 // 查询节目下的热门节目
+	PageInfo getChannelHot(int pageNum,int id,int cid);
 
 }

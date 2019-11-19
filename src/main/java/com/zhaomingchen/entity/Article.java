@@ -43,7 +43,7 @@ public class Article implements Serializable {
 	private int deleted          ;
 	
 	//发表时间
-	private String created          ;
+	private Date created          ;
 	
 	//最后修改时间
 	private Date updated          ;
@@ -138,10 +138,10 @@ public class Article implements Serializable {
 	public void setDeleted(int deleted) {
 		this.deleted = deleted;
 	}
-	public String getCreated() {
+	public Date getCreated() {
 		return created;
 	}
-	public void setCreated(String created) {
+	public void setCreated(Date created) {
 		this.created = created;
 	}
 	public Date getUpdated() {

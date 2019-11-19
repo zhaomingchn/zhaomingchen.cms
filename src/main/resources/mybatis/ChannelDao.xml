@@ -7,4 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  <select id="getChannel" resultType="Channel">
  select * from cms_channel
  </select>
+      <select id="findById" resultType="channel">
+		SELECT * FROM cms_channel WHERE id=${value}
+	</select>
 </mapper>

@@ -10,6 +10,8 @@ public interface UserService {
 	User getByID(Integer id);
 
 	int updateLocked(Integer id, Integer lock);
+
+	User byName(String name);
 	
 	
 

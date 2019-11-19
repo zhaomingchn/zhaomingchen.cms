@@ -8,18 +8,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  <id column="id" property="id"/>
  <association property="user" column="user_id" select="com.zhaomingchen.dao.UserDao.getById" ></association>
  <association property="category" column="category_id" select="com.zhaomingchen.dao.CategoryDao.getByid" ></association>
-
+ <association property="channel" column="channel_id" select="com.zhaomingchen.dao.ChannelDao.findById" ></association>
 </resultMap>
 <!--  获取所有的文章 -->
  <select id="getArticel" resultType="Article">
-    select id,title from  cms_article   where deleted=0 and status=1 limit ${value}
+    select id,title from  cms_article   where deleted=0 and status=1  ORDER BY created asc limit ${value}
+ </select>
+ 
+  <!-- 获取热门的文章 -->
+   <select id="gethorList" resultMap="articleMapper">
+    select * from  cms_article   where deleted=0 and status=1 and hot=1  ORDER BY created asc
  </select>
  
  <!-- 获取单个的文章 -->
 <select id="getArticelById" resultMap="articleMapper">
 		SELECT * FROM cms_article 
-		
 		  WHERE id=${value} AND deleted=0 AND status=1
 	</select>	
-
+	
+ <!-- 获取节目下的热门文章 -->
+   <select id="getChannelHot" resultMap="articleMapper">
+    select * from  cms_article where deleted=0 and status=1 and hot=1 and channel_id=#{id}
+  <if test="cid!=0">
+   and category_id=#{cid}
+  </if> 
+    ORDER BY created asc
+ </select>
 </mapper>

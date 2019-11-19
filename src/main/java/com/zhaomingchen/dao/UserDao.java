@@ -22,6 +22,9 @@ public interface UserDao {
 	User getById(Integer id);
 
 	int updateLocked(@Param("id")Integer id,@Param("lock")Integer lock);
+
+	// 用户名的查询 看看是否重复
+	User byName(@Param("name")String name);
 	
 
 	
