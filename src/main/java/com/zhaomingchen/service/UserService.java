@@ -1,5 +1,6 @@
 package com.zhaomingchen.service;
 
+
 import com.github.pagehelper.PageInfo;
 import com.zhaomingchen.entity.User;
 
@@ -11,8 +12,6 @@ public interface UserService {
 
 	int updateLocked(Integer id, Integer lock);
 
-	User byName(String name);
-	
-	
+
 
 }

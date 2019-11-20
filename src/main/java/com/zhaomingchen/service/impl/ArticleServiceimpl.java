@@ -58,6 +58,16 @@ public class ArticleServiceimpl implements ArticleService {
 		PageHelper.startPage(pageNum,FinalNum.PAGESIZE);
 		return  new PageInfo(dao.getChannelHot(id,cid));
 	}
+
+	/**
+	 * 获取用户的自己的文章
+	 */
+	@Override
+	public PageInfo getArticlerUser(Integer pageNum,Integer id) {
+		// TODO Auto-generated method stub
+		PageHelper.startPage(pageNum,FinalNum.PAGESIZE);
+		return  new PageInfo(dao.getArticlerUser(id)) ;
+	}
 	
 	
 	

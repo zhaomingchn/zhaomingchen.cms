@@ -34,4 +34,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   </if> 
     ORDER BY created asc
  </select>
+ 
+ <select id="getArticlerUser" resultMap="articleMapper">
+ select * from  cms_article where deleted=0 and status=1  and user_id=#{value}
+ </select>
 </mapper>

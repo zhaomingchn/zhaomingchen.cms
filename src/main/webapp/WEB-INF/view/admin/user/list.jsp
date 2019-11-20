@@ -104,10 +104,4 @@
     	  $("#content").load("/admin/users?name="+msg);
     	  
       }
-
-
 </script> 
-
-
-
-

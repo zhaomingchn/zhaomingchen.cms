@@ -20,11 +20,12 @@ public interface UserDao {
 
 	// 获取单个id的值
 	User getById(Integer id);
-
+	
+    // 修改禁用正常的值
 	int updateLocked(@Param("id")Integer id,@Param("lock")Integer lock);
 
-	// 用户名的查询 看看是否重复
-	User byName(@Param("name")String name);
+
+
 	
 
 	

@@ -49,7 +49,7 @@
     </div>
    </div>
    </li>
-            <li style="margin-top: 8px;"><a href="java"><span class="glyphicon glyphicon-user"></span>注册</a></li> 
+            <li style="margin-top: 8px;"><a href="Register"><span class="glyphicon glyphicon-user"></span>注册</a></li> 
             <li style="margin-top: 15px;">
     <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
                  用户

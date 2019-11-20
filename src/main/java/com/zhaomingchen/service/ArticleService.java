@@ -19,4 +19,16 @@ public interface ArticleService {
 	 // 查询节目下的热门节目
 	PageInfo getChannelHot(int pageNum,int id,int cid);
 
+	
+	/**
+	 * 
+	 * @Title: getArticlerUser 
+	 * @Description:获取用户自己的文章
+	 * @param pageNum
+	 * @param id
+	 * @return
+	 * @return: PageInfo
+	 */
+	PageInfo getArticlerUser(Integer pageNum, Integer id);
+
 }

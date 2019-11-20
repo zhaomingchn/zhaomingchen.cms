@@ -27,9 +27,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   update cms_user set locked=${lock} where id=${id}
  </update>
  
- <!-- name值的唯一 -->
-  <select id="byName" resultType="User">
-   select * from cms_user where username=#{name}
-  </select>
+ 
+  
+ 
+  
 
 </mapper>

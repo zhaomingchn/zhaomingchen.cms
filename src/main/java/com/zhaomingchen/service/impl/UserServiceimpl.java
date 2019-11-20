@@ -20,7 +20,7 @@ public class UserServiceimpl implements UserService {
 	private UserDao dao;
 
 	/**
-	 *  获取用户
+	 *  获取所有用户
 	 */
 	@Override
 	public PageInfo getUser(String name, Integer pageNum) {
@@ -31,6 +31,9 @@ public class UserServiceimpl implements UserService {
 		return info;
 	}
 
+	/**
+	 * 获取单个用户
+	 */
 	@Override
 	public User getByID(Integer id) {
 		// TODO Auto-generated method stub
@@ -46,13 +49,16 @@ public class UserServiceimpl implements UserService {
 		return dao.updateLocked(id,lock);
 	}
 
-	@Override
-	public User byName(String name) {
-		// TODO Auto-generated method stub
-		return dao.byName(name);
-		
-		
-	}
+	
+	
+
+
+
+
+	
+
+
+
 	
 	
 	

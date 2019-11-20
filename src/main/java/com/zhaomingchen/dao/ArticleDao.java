@@ -23,6 +23,16 @@ public interface ArticleDao {
 	//获取文章下的热门文章
 	List<Article> getChannelHot(@Param("id")int id,@Param("cid")int cid);
 
+  
+	/**
+	 * 
+	 * @Title: getArticlerUser 
+	 * @Description: 获取用户自己的文章
+	 * @return
+	 * @return: List
+	 */
+	List<Article> getArticlerUser(Integer id);
+
 	
 	
 	
