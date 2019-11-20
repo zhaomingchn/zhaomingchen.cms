@@ -29,7 +29,7 @@
 
 						<div class="card-body">
 							<form action="login" method="post" id="valiateform">
-								<p align="center">${errorMsg}</p>
+								<p align="center" style="font-size: 19px;color: red;"></p>
 								<div class="form-group">
 									<label for="username">用户名:</label> <input type="text"
 										class="form-control" name=username id="username"
@@ -70,6 +70,8 @@
 		<br />
 	</div>
 <script type="text/javascript">
+
+			
 		
 		$(function() {
 			$("#valiateform").validate({
@@ -96,6 +98,12 @@
 			})
 
 		})
+		
+		var flag=${sessionScope.error};
+			if(flag==1){
+				alert("输入的用户名,或者密码错误");
+			}
+		
 	</script>
 
 </body>

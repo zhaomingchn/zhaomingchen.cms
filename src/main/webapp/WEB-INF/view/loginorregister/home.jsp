@@ -11,6 +11,7 @@
  <link href="/resource/bootstrap/css/bootstrap.css" rel="stylesheet">  
  <script type="text/javascript" src="/resource/js/jquery-3.2.1.js"></script> 
  <script type="text/javascript" src="resource/bootstrap/js/bootstrap.js"></script>
+ <script type="text/javascript" src="/resource/kindeditor/kindeditor-all.js"></script>
 
 <title>Insert title here</title>
 </head>
@@ -18,10 +19,10 @@
     <jsp:include page="/WEB-INF/view/common/top.jsp"></jsp:include>
 <!-- 导航条 -->
 <div class="container">
-	<div class="row" style="margin-top: 100px; margin-left: px;">
-		<div class="col-md-3" >
-			<ul class="list-group homemenu">
-			 <li class="list-group-item list-group-item-success" data="/user/getArticlerUser">我的文章</li>
+	<div class="row" style="margin-top: 100px; ">
+		<div class="col-md-3" style=" height:300px; text-align: center;">
+			<ul class="list-group homemenu" style="height: 200px;">
+			 <li class="list-group-item list-group-item-success" data="/user/getArticlerUser"><a>我的文章</a></li>
 			 <li class="list-group-item list-group-item-info" data="/user/postArticle">发布文章</li>
 			 <li class="list-group-item list-group-item-info">我的评论</li>
 			 <li class="list-group-item list-group-item-info">投票管理</li>
@@ -29,7 +30,12 @@
 			</ul>
 		</div>
 		<div class="col-md-9" id="content">
-			
+		  <h1>欢迎你</h1>
+		  <div id="kindEditor" style="display: none">
+				   <!-- 引入kindEditor的样式 -->
+				  <jsp:include page="/resource/kindeditor/jsp/demo.jsp"></jsp:include>
+              </div>
+		  
 		</div>
 	</div>
 </div>
@@ -38,6 +44,7 @@
 		var url  = $(this).attr("data");
 		$("#content").load(url);
 	})
+	
 </script>
 
 

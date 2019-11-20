@@ -30,5 +30,27 @@ public interface ArticleService {
 	 * @return: PageInfo
 	 */
 	PageInfo getArticlerUser(Integer pageNum, Integer id);
+	/**
+	 * 
+	 * @Title: delete 
+	 * @Description: 删除文章
+	 * @param id
+	 * @return
+	 * @return: int
+	 */
+	int delete(Integer id);
+
+	
+	/**
+	 * 
+	 * @Title: add 
+	 * @Description: 添加
+	 * @param article
+	 * @return
+	 * @return: int
+	 */
+	int add(Article article);
+	
+	
 
 }

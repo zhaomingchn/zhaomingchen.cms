@@ -60,7 +60,6 @@ public class LoginorRegisterController {
 		return "/loginorregister/home";
 	}
 	
-	
 	/**
 	 * 
 	 * @Title: userLogin 
@@ -71,22 +70,22 @@ public class LoginorRegisterController {
 	 * @return: String
 	 */
 	@RequestMapping(value= "login",method = RequestMethod.POST)
-	public String userLogin(User user,HttpServletRequest request) {
+	public String userLogin(User user,HttpServletRequest request,Model m) {
 	User loginUser=service.login(user);
 	if(loginUser!=null) {
 		request.getSession().setAttribute(FinalNum.USER_KEY,loginUser);
-		System.out.println(loginUser);
 		return loginUser.getRole()==FinalNum.ROLE?"redirect:index.do":"redirect:home";
 	}else {
-		request.setAttribute("erroMsg","用户名或者密码错误");
-		request.setAttribute("user",user);
-		return "/loginorregister/login";
+		request.getSession().setAttribute("error",1);
+		request.getSession().setAttribute("user",user);
+		return "redirect:/login.do";
 	}
 	}
+	
 	/**
 	 * 
 	 * @Title: getByName 
-	 * @Description: 验证名字是否唯一
+	 * @Description: 验证名字是否唯一 用于添加用户的判断
 	 * @param username
 	 * @return
 	 * @return: boolean
@@ -98,10 +97,11 @@ public class LoginorRegisterController {
 		return user==null;
 	}
    
+   
   /***
    * 
    * @Title: addUser 
-   * @Description: 添加
+   * @Description: 添加用户
    * @param user
    * @return
    * @return: String
@@ -109,9 +109,7 @@ public class LoginorRegisterController {
    @RequestMapping("addUser")
    public String addUser(User user) {
 	   int result=service.addUser(user);
-	   
 	  CmsAssert.AssertTrue(result>0,"用户注册失败,请稍后再试"); 
-	   
 	   return "redirect:/login.do";
    }
 	

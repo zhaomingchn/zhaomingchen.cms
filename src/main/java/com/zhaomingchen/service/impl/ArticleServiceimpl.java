@@ -68,6 +68,26 @@ public class ArticleServiceimpl implements ArticleService {
 		PageHelper.startPage(pageNum,FinalNum.PAGESIZE);
 		return  new PageInfo(dao.getArticlerUser(id)) ;
 	}
+
+	/**
+	 * 删除
+	 */
+	@Override
+	public int delete(Integer id) {
+		// TODO Auto-generated method stub
+		
+		return dao.delete(id);
+	}
+
+	
+	/**
+	 * 添加文章
+	 */
+	@Override
+	public int add(Article article) {
+		// TODO Auto-generated method stub
+		return dao.add(article);
+	}
 	
 	
 	
