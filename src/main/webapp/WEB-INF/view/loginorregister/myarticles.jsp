@@ -77,4 +77,11 @@
 			}
 		},"json")
 	}
+	// 文章的修改
+	function updateArticle(articleId){
+		var url="/user/updateArticle?id="+articleId;
+		$("#content").load(url);
+	}
+	 
+	
 </script>

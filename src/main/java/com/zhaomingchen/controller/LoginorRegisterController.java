@@ -1,6 +1,7 @@
 package com.zhaomingchen.controller;
 
 
+
 import java.lang.ProcessBuilder.Redirect;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zhaomingchen.entity.User;
@@ -46,11 +46,11 @@ public class LoginorRegisterController {
 		return "/loginorregister/login";
 	}
 	
+
 	// 跳转到注册页面
 	@RequestMapping("Register")
 	public String Register() {
 		return "/loginorregister/Register";
-		
 	}
 	
 	// 跳转到用户管理文章界面
@@ -82,6 +82,22 @@ public class LoginorRegisterController {
 	}
 	}
 	
+	
+	@RequestMapping(value= "logins.do",method = RequestMethod.POST)
+	public String userLogins(User user,HttpServletRequest request,Model m,int ids) {
+	
+	User loginUser=service.login(user);
+	if(loginUser!=null) {
+		request.getSession().setAttribute(FinalNum.USER_KEY,loginUser);
+		      return  "redirect:ByIdArticel.do?id="+ids;
+	}else {
+		m.addAttribute("error", "账号或者密码错误");
+		request.getSession().setAttribute("user",user);
+		return  "/common/index1";
+	}
+	}
+	
+	
 	/**
 	 * 
 	 * @Title: getByName 
@@ -112,8 +128,25 @@ public class LoginorRegisterController {
 	  CmsAssert.AssertTrue(result>0,"用户注册失败,请稍后再试"); 
 	   return "redirect:/login.do";
    }
-	
 
+
+
+   /**
+    * 
+    * @Title: exit 
+    * @Description: 退出用户
+    * @param request
+    * @return
+    * @return: String
+    */
+
+			@RequestMapping("exit.do")
+			public String exit(HttpServletRequest request) {
+				
+				request.getSession().invalidate();
+				
+				return "redirect:login.do";
+			}
 	
 	
 	

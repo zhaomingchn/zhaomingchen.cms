@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhaomingchen.dao.CommentDao">
+  
+  <resultMap type="Comment" id="com">
+   <id column="id" property="id"/>
+   <association property="user" column="userId" select="com.zhaomingchen.dao.UserDao.getById"/>
+   <association property="article" column="articleId" select="com.zhaomingchen.dao.ArticleDao.getArticelById"></association>
+  </resultMap>
+ 
+   <!-- 获取文章的评论 -->
+<select id="getComment" resultMap="com">
+  select * from cms_comment where cms_comment.articleId=${value}
+</select>
+  
+   <update id="UpHos">
+    
+     update cms_comment set hos=hos+1 where id=${value}
+   </update>
+   
+   <insert id="add">
+   
+    insert into cms_comment set articleId=#{id},userId=#{ids},content=#{name},created=now();
+   </insert>
+ 
+</mapper>

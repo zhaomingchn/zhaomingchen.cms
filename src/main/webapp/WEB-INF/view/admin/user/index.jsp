@@ -73,7 +73,7 @@ role="navigation">
 </nav>
 
 <script type="text/javascript">
-	function showF(url){
+	function showFuction(url){
 		$("#content").load(url)
 	}
 </script>

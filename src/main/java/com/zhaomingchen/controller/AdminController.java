@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
+import com.zhaomingchen.entity.Article;
 import com.zhaomingchen.entity.User;
+import com.zhaomingchen.finalnum.CmsAssert;
 import com.zhaomingchen.finalnum.MsgResult;
+import com.zhaomingchen.service.ArticleService;
 import com.zhaomingchen.service.UserService;
 
 @Controller
@@ -20,6 +23,10 @@ public class AdminController {
 	
 	@Autowired
 	private UserService service;
+	
+	
+	@Autowired
+	private ArticleService aservice;
 	
 	/**
 	 * 
@@ -38,6 +45,7 @@ public class AdminController {
 		m.addAttribute("name",name);
 		return "/admin/user/list";
 	}
+	
 	/**
 	 * 
 	 * @Title: updateLock 
@@ -81,7 +89,81 @@ public class AdminController {
 		 }
 	}
 		
+	/**
+	 * 
+	 * @Title: getUserArticles 
+	 * @Description: 用于用户文章的管理
+	 * status  -1 全部  0 待审核  1 审核通过  2 审核未通过
+	 * @return
+	 * @return: String
+	 */
+	@RequestMapping("articles")
+	public String getUserArticles(Model m,@RequestParam(defaultValue ="-1") int status,
+			@RequestParam(defaultValue ="-1")Integer page
+			) {
 		
+		 PageInfo info =aservice.getPageList(status,page);
+
+		 m.addAttribute("pageInfo",info);
+		 
+		return "/admin/article/list";
+	}
+		
+	/**
+	 * 
+	 * @Title: getArticle 
+	 * @Description: 获取单个文章  而且是未被删除的
+	 * @param id
+	 * @return
+	 * @return: Object
+	 */
+	@RequestMapping("getArticle")
+	@ResponseBody
+	public MsgResult  getArticle(int id) {
+		
+		Article article=aservice.getDetailById(id);
+		CmsAssert.AssertTrue(article!=null,"对不起你的文章已经被删除");
+		return new MsgResult(1,"对不起没有获取",article) ;
+	}
+	
+	/**
+	 * 
+	 * @Title: Updatestatus 
+	 * @Description: 修改审核通过不通过
+	 * @param m
+	 * @param id
+	 * @param status
+	 * @return
+	 * @return: MsgResult
+	 */
+	@RequestMapping("applyArticle")
+	@ResponseBody  
+	public MsgResult Updatestatus(int id,int status) {
+		
+		
+		int num=aservice.updateStutes(id,status);
+		
+		return new MsgResult(num,"对不起审核没有成功",null);
+		
+	}
+	/**
+	 * 
+	 * @Title: UpdateHot 
+	 * @Description: 修改热门状态
+	 * @param id
+	 * @param status
+	 * @return
+	 * @return: MsgResult
+	 */
+	@RequestMapping("upadteHot")
+	@ResponseBody
+	public MsgResult UpdateHot(int id,int status) {
+		
+		 int num=aservice.UpdateHot(id,status);
+		 
+		return new MsgResult(1,"对不起修改没有成功",null);
+	}
+	
 	
 	
 }

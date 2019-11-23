@@ -28,7 +28,7 @@
 						<div class="card-header">欢迎回来</div>
 
 						<div class="card-body">
-							<form action="login" method="post" id="valiateform">
+							<form action="/login" method="post" id="valiateform">
 								<p align="center" style="font-size: 19px;color: red;"></p>
 								<div class="form-group">
 									<label for="username">用户名:</label> <input type="text"

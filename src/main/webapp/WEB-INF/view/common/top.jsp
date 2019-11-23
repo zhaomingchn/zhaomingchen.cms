@@ -45,11 +45,12 @@
 		          	${sessionScope.SESSION_USER_KEY.username}
 		           <span class="caret"></span></a>
 		         <ul class="dropdown-menu ">
-		            <li><a href="#">个人中心</a></li>
+		            <li><a href="">个人中心</a></li>
 		            <li><a href="#">个人设置</a></li>
 		            <li><a href="#">修改头像</a></li>
+		            <li><a href="index">去主页面</a></li>
 		            <li role="separator" class="divider"></li>
-		            <li><a href="exit">退出登录</a></li>
+		            <li><a href="exit.do">退出登录</a></li>
 		          </ul>
 		        </li> 、
 	        </c:otherwise>

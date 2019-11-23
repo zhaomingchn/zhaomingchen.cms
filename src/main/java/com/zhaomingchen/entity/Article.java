@@ -53,7 +53,15 @@ public class Article implements Serializable {
 	//文章类型
 	private int articleType      ;
 	
+	private Integer num;
 	
+	
+	public Integer getNum() {
+		return num;
+	}
+	public void setNum(Integer num) {
+		this.num = num;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -173,7 +181,7 @@ public class Article implements Serializable {
 				+ ", channelId=" + channelId + ", channel=" + channel + ", categoryId=" + categoryId + ", category="
 				+ category + ", userId=" + userId + ", user=" + user + ", hits=" + hits + ", hot=" + hot + ", status="
 				+ status + ", deleted=" + deleted + ", created=" + created + ", updated=" + updated + ", commentCnt="
-				+ commentCnt + ", articleType=" + articleType + "]";
+				+ commentCnt + ", articleType=" + articleType + ", num=" + num + "]";
 	}
 	@Override
 	public int hashCode() {

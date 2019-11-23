@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+    <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,56 +27,65 @@
 </style>
 </head>
 <body>
- <div class="container-fluid" style="background-image:url('/resource/images/325392.jpg'); ">
-<!-- logo -->
-<nav class="navbar navbar-default" role="navigation"> 
-    <div class="container-fluid" style="min-height:60px;"> 
-        <div class="navbar-header" style="margin-top: 5px;" > 
-			<img alt="200x200" src="/resource/images/logo.png"/ style="width: 100px;height: 70px;">
-        </div> 
-        <ul class="nav navbar-nav navbar-right"> 
-             <li>    <div class="container-fluid" style="width:500px;height: 50px;margin-top: 13px; margin-right: 500px;">
-    <!-- 模糊查询 -->
-    <div class="navbar-header" >
-        <a class="navbar-brand" href="#">输入姓名</a>
+   
+<!-- 导航 -->
+  	
+<div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">
+        <img alt="Brand" src="/resource/images/logo.png">
+      </a>
     </div>
-    <div>
-      <form class="navbar-form navbar-left" role="search">
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search">
-            </div>
-            <input type="button" class="btn btn-default" value="查询"/>
-        </form>
-    </div>
-   </div>
-   </li>
-            <li style="margin-top: 8px;"><a href="Register"><span class="glyphicon glyphicon-user"></span>注册</a></li> 
-            <li style="margin-top: 15px;">
-    <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
-                 用户
-        <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-        <li role="presentation" class="dropdown-header">下拉菜单标题</li>
-        <li role="presentation">
-            <a role="menuitem" tabindex="-1" href="#">Java</a>
-        </li>
-        <li role="presentation">
-            <a role="menuitem" tabindex="-1" href="#">数据挖掘</a>
-        </li>
-        <li role="presentation">
-            <a role="menuitem" tabindex="-1" href="#">数据通信/网络</a>
-        </li>
-        <li role="presentation" class="divider"></li>
-        <li role="presentation" class="dropdown-header"><a href="login.do">登录</a></li>
-        <li role="presentation">
-            <a role="menuitem" tabindex="-1" href="#">退出</a>
-        </li>
-    </ul>
-   </li>
-        </ul> 
-    </div> 
-</nav>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav"  >
+		<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+		<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+		<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+		<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+		
+		<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+		<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+		<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+		<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+      </ul>
+      
+      <form class="navbar-form navbar-left">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      
+      <ul class="nav navbar-nav navbar-right">
+       <li><a href="#"><img width="30px" height="30px" src="/resource/images/donghua.gif"/> </a></li>
+        <c:choose>
+	        <c:when  test="${sessionScope.SESSION_USER_KEY == null}">
+	        	<li><a href="Register">注册</a></li>
+	        	<li><a href="login.do">登录</a></li>
+	        </c:when>
+	        <c:otherwise>
+		        <li class="dropdown">
+		          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 
+		          	${sessionScope.SESSION_USER_KEY.username}
+		           <span class="caret"></span></a>
+		         <ul class="dropdown-menu ">
+		            <li><a href="">个人中心</a></li>
+		            <li><a href="#">个人设置</a></li>
+		            <li><a href="#">修改头像</a></li>
+		            <li><a href="index">去主页面</a></li>
+		            <li role="separator" class="divider"></li>
+		            <li><a href="exit.do">退出登录</a></li>
+		          </ul>
+		        </li> 、
+	        </c:otherwise>
+        </c:choose>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+  
 
    <!--大概信息 -->
 <div class="container-fluid" style="background: ; margin-top:30px;">
@@ -130,6 +140,7 @@
   </div>
   
   
+  
    <div class="container-fluid" style="font-size: 18px" >
     <!--  获取热门文章 -->
      
@@ -148,6 +159,32 @@
 					</div>
 				</div>
 				</c:forEach>
+					<ul class="pagination">
+
+								    <li><a href="/index?pageNum=${hotList.prePage}">&laquo;</a></li>
+
+								    <c:forEach begin="${hotList.pageNum-2 > 1 ? hotList.pageNum-2:1}" end="${hotList.pageNum+2 > hotList.pages ? hotList.pages:hotList.pageNum+2}" varStatus="index">    		
+
+								    	<c:if test="${hotList.pageNum!=index.index}">
+
+								    		<li><a href="/index?pageNum=${index.index}">${index.index}</a></li>
+
+								    	</c:if>
+
+								    	<c:if test="${hotList.pageNum==index.index}">
+
+								    		<li><a href="/index?pageNum=${index.index}"><strong> ${index.index} </strong> </a></li>
+
+								    	</c:if>
+
+								    	
+
+								    </c:forEach>
+
+								    <li><a href="/index?pageNum=${hotList.nextPage}">&raquo;</a></li>
+
+								</ul>
+				
     </div>
       </div>
       

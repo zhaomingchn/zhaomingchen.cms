@@ -2,19 +2,26 @@ package com.zhaomingchen.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.zhaomingchen.entity.Article;
 import com.zhaomingchen.entity.Category;
 import com.zhaomingchen.entity.Channel;
+import com.zhaomingchen.entity.Comment;
+import com.zhaomingchen.entity.User;
+import com.zhaomingchen.finalnum.FinalNum;
 import com.zhaomingchen.service.ArticleService;
 import com.zhaomingchen.service.CategoryService;
 import com.zhaomingchen.service.ChannelService;
+import com.zhaomingchen.service.CommentService;
 
 
 
@@ -32,6 +39,10 @@ public class IndexController {
 	// 频道下对应的节目
 	@Autowired
 	private CategoryService cat;
+	
+	// 评论
+	@Autowired
+	private CommentService comservice;
 	/**
 	 * 
 	 * @Title: getChannel 
@@ -56,8 +67,6 @@ public class IndexController {
 		   m.addAttribute("hotList",horList);
 		   
 		   
-		   
-		   
 		return "index";
 	}
 	
@@ -71,12 +80,22 @@ public class IndexController {
 	 * @return: String
 	 */
 	@RequestMapping("ByIdArticel.do")
-	public String ByIdArticel(Integer id,Model m){
-		
+	public String ByIdArticel(Integer id,Model m,HttpServletRequest request,@RequestParam(defaultValue = "1")Integer PageNum,@RequestParam(defaultValue = "1")Integer flag){
+		System.out.println("-----------------------"+flag);
+	
+		 if(flag==1) {
+			 art.addNum(id);
+		 }
 		// 获取这个文章的所有信息
 		Article articel=art.getArticelByid(id);
 		m.addAttribute("article",articel);
-		
+		 request.getSession().setAttribute("ids",id);
+		 
+		// 获取这个文章的评论
+		PageInfo lis=comservice.getComment(id,PageNum);
+		    List list = lis.getList();
+		  m.addAttribute("list",list);
+		  m.addAttribute("page",lis);
 		return "/articel/list";
 		
 	}
@@ -89,28 +108,42 @@ public class IndexController {
 	 * @return
 	 * @return: String
 	 */
-	@RequestMapping("upById")
-	 public String upById(Integer id,Model m){
- 
-		System.out.println("----------------"+id);
-		// 先判断id 的上一个值 有没有
-		Article article;
-		int i=1;
-		 for (;;) {
-			id--;
-			article=art.getArticelByid(id);
-			if(article!=null) {
-				m.addAttribute("article",article);
-				return  "/articel/list";
-			}else {
-				article=art.getArticelByid(id++);
-				m.addAttribute("msg","对不起这已经是最新的一篇了");
-				m.addAttribute("num",i);
-				m.addAttribute("article",article);
-				return "/articel/list";
+	/*
+	 * @RequestMapping("upById") public String upById(Integer id,int num,Model m){
+	 * // 先判断id 的上一个值 有没有
+	 * 
+	 * if(num==FinalNum.NUM) {
+	 * 
+	 * }
+	 * }
+	 */
+	 /**
+		 * 
+		 * @Title: upById 
+		 * @Description: 下一篇
+		 * @param id
+		 * @param m
+		 * @return
+		 * @return: String
+		 */
+		@RequestMapping("ceById")
+		 public String ceById(Integer id,Model m){
+	 
+			// 先判断id 的上一个值 有没有
+			Article article;
+			 for (;;) {
+				id++;
+				article=art.getArticelByid(id);
+				if(article!=null) {
+					m.addAttribute("article",article);
+					return  "/articel/list";
+				}else {
+					 return  ceById(article.getId(),m);
+				}
+				
 			}
+			
 		}
-	}
 	
 	/**
 	 * 
@@ -147,5 +180,74 @@ public class IndexController {
 	}
 	
 	
+	/**
+	 * 
+	 * @Title: upHos 
+	 * @Description: 增加评论的点击量
+	 * @param id
+	 * @return
+	 * @return: boolean
+	 */
+	@ResponseBody
+	@RequestMapping("upHos.do")
+	public boolean upHos(int id) {
+		
+		comservice.upHos(id);
+		
+		return true;
+	}
+	/**
+	 * 
+	 * @Title: upHos 
+	 * @Description: 增加浏览器的点击量
+	 * @param id
+	 * @return
+	 * @return: boolean
+	 */
+	@ResponseBody
+	@RequestMapping("upmoneent.do")
+	public boolean upmoneent(int id) {
+		art.upMoneent(id);
+		return true;
+	}
+	/**
+	 * 
+	 * @Title: addMonmmtent 
+	 * @Description: 添加评论
+	 * @param name
+	 * @return
+	 * @return: boolean
+	 */
+	@RequestMapping("addMonmment")
+	@ResponseBody
+	public boolean addMonmmtent(String name,HttpServletRequest request) {
+		User user = (User) request.getSession().getAttribute(FinalNum.USER_KEY);
+		int  id= (int) request.getSession().getAttribute("ids");
+		
+	
+		comservice.add(name,user.getId(),id);
+		
+		 
+		
+		
+		return true;
+	}
+	
+	
+	
+	/**
+	 * 
+	 * @Title: upindex1 
+	 * @Description: 加载index路径
+	 * @return
+	 * @return: String
+	 */
+	
+	@RequestMapping("upindex1.do")
+	public  String upindex1() {
+
+		
+		return "/common/index1";
+	}
 	
 }

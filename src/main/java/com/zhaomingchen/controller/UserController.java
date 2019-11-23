@@ -102,7 +102,7 @@ public class UserController {
 		 CmsAssert.AssertTrue(id>0,"文章id必须大于0"); 
 		 
 		 //查询是否存在这篇文章
-		  
+		 
 		 Article articelByid = Atservice.getArticelByid(id);
 		 CmsAssert.AssertTrue(articelByid!=null,"该文章不存在");
 		 
@@ -116,8 +116,7 @@ public class UserController {
 	   return new MsgResult(1,"删除成功",null);
 	  }
 
-	  
-	  
+
 	  
 	  
 	  
@@ -152,6 +151,7 @@ public class UserController {
 	  public Object getCategoryByChannel(int chnId) {
 		  
 		  List<Category> categories = cateservice.getCategory(chnId);
+		  System.out.println("--------------------------");
 		  return new MsgResult(1, "对不起，没有获取这个数据", categories);
 		  
 	  }
@@ -228,8 +228,70 @@ public class UserController {
 	 file.transferTo(new File(string));	
 	 
 	 return path+"/"+string;
-		 
+		
 	}
+	
+	/**
+	 * 
+	 * @Title: updateArticle 
+	 * @Description: 用于文章的回显 也就是修改
+	 * @param m
+	 * @param id
+	 * @return
+	 * @return: String
+	 */
+	@GetMapping("updateArticle")
+	public String updateArticle(Model m,int id) {
+		
+		
+		Article article = Atservice.getDetailById(id);
+		m.addAttribute("article",article);
+		m.addAttribute("contentl",htmlspecialchars(article.getContent()));
+		
+		System.out.println("将要修改的文章"+article);
+		
+	   // 再一次获取所有的频道
+        List<Channel> channels = Cservice.getChannel();	
+        m.addAttribute("channels",channels);
+        
+		return "/articel/update";
+	}
+	
+	
+	/**
+	 * 
+	 * @Title: MsgResult 
+	 * @Description:文章的修改
+	 * @param m
+	 * @param article
+	 * @param file
+	 * @return 
+	 * @return: void
+	 * @throws Exception 
+	 * @throws IllegalStateException 
+	 */
+	
+   @PostMapping("updateArticle")
+   @ResponseBody
+   public MsgResult updateArticle(Model m,Article article,MultipartFile file) throws IllegalStateException, Exception {
+	   
+	   //  
+		  if(!file.isEmpty()) {
+			  // 调用获取文件的方法
+			   String processFile = ProcessFile(file);
+			   // 获取图片文件的位置
+			   article.setPicture(processFile);
+		  }
+	   
+	   
+		  int result=Atservice.updateArticle(article);
+		  if(result>0) {
+			  
+				 return new MsgResult(1,"",null);
+			 }else {
+				 return new MsgResult(0,"",null);
+			 }
+   }
 	
 	/**
 	 * 

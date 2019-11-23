@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 
 import com.zhaomingchen.entity.Article;
 
@@ -62,6 +63,83 @@ public interface ArticleDao {
 			+ "#{userId},#{hits},#{hot},#{status},#{deleted},"
 			+ "now(),now(),#{commentCnt},#{articleType})")
 	 int add(Article article);
+
+
+	/**
+	 * 
+	 * @Title: getPostList 
+	 * @Description: 获取所有的文章
+	 * @param status
+	 * @return
+	 * @return: List
+	 */
+	List getPostList(int status);
+
+
+	/**
+	 * 
+	 * @Title: getDetailById 
+	 * @Description: 获取单个文章  而且是未被删除的
+	 * @param id
+	 * @return
+	 * @return: Article
+	 */
+	Article getDetailById(int id);
+
+   
+	/**
+	 * 
+	 * @Title: updateStutes 
+	 * @Description: 修改文章的审核状态
+	 * @param id
+	 * @param status
+	 * @return
+	 * @return: int
+	 */
+	int updateStutes(@Param("id")int id,@Param("status") int status);
+
+
+	/**
+	 * 
+	 * @Title: UpdateHot 
+	 * @Description: 修改文章的热门状态
+	 * @param id
+	 * @param status
+	 * @return
+	 * @return: int
+	 */
+	int UpdateHot(@Param("id")int id,@Param("status") int status);
+
+	/**
+
+	 * 修改文章
+
+	 * @param article
+
+	 * @return
+
+	 */
+
+	@Update("UPDATE cms_article SET title=#{title},content=#{content},"
+
+			+ "picture=#{picture},channel_id=#{channelId},"
+
+			+ "category_id=#{categoryId},status=0,updated=now() WHERE id=#{id}")
+	int updateArticle(Article article);
+
+	/**
+	 * 
+	 * @Title: upMoneent 
+	 * @Description: 修改文章的点击量
+	 * @param id
+	 * @return: void
+	 */
+    @Insert("update cms_article set commentCnt=commentCnt+1 where id=${value}")
+	void upMoneent(int id);
+
+
+    @Update("update cms_article set num=num+1 where id=${value}")
+	void addNum(Integer id);
 
 	
 	

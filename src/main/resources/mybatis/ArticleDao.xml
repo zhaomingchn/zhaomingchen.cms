@@ -6,19 +6,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <resultMap type="Article" id="articleMapper">
  <id column="id" property="id"/>
- <result column="user_id" property="userId"/>
+ 	<result property="channelId" column="channel_id"/>
+		<result property="categoryId" column="category_id"/>
+		<result property="userId" column="user_id"/>
  <association property="user" column="user_id" select="com.zhaomingchen.dao.UserDao.getById" ></association>
  <association property="category" column="category_id" select="com.zhaomingchen.dao.CategoryDao.getByid" ></association>
  <association property="channel" column="channel_id" select="com.zhaomingchen.dao.ChannelDao.findById" ></association>
 </resultMap>
 <!--  获取所有的文章 -->
  <select id="getArticel" resultType="Article">
-    select id,title from  cms_article   where deleted=0 and status=1  ORDER BY created asc limit ${value}
+    select id,title from  cms_article   where deleted=0 and status=1  ORDER BY created desc limit ${value}
  </select>
  
   <!-- 获取热门的文章 -->
    <select id="gethorList" resultMap="articleMapper">
-    select * from  cms_article   where deleted=0 and status=1 and hot=1  ORDER BY created asc
+    select * from  cms_article   where deleted=0 and status=1 and hot=1  ORDER BY created desc
  </select>
  
  <!-- 获取单个的文章 -->
@@ -26,6 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT * FROM cms_article 
 		  WHERE id=${value} AND deleted=0 AND status=1
 	</select>	
+	
  <!-- 获取节目下的热门文章 -->
    <select id="getChannelHot" resultMap="articleMapper">
     select * from  cms_article where deleted=0 and status=1 and hot=1 and channel_id=#{id}
@@ -36,12 +39,45 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  </select>
 	 <!-- 获取用户自己的文章 -->
 	 <select id="getArticlerUser" resultMap="articleMapper">
-	 select * from  cms_article where  user_id=#{value}
+	 select * from  cms_article where  user_id=#{value} and cms_article.deleted=0
+	 
 	 </select>
 	 <!-- 删除文章 -->
 	 <delete id="delete">
      delete from  cms_article where id=${value};	 
 	 </delete>
+	 
+	 <!-- 用于管理员获取文章 -->
+	 	<select id="getPostList" resultMap="articleMapper">
+		SELECT id,title,picture,channel_id,category_id,hits,commentCnt,created,status,user_id,hot
+			FROM cms_article 
+			WHERE deleted=0  /
+			<if test="value != -1 ">
+				AND status = #{value}
+			</if>
+			ORDER BY created DESC
+	</select>
+	
+	
+	<!-- 管理员获取文章详情 -->
+	<select id="getDetailById" resultMap="articleMapper">
+		SELECT * FROM cms_article 
+		  WHERE id=#{value} AND deleted=0
+	</select>
+	
+	<!-- updateStutes 修改文章的审核状态  -->
+	<update id="updateStutes">
+	 update cms_article set status=${status} where id=${id}
+	</update>
+	
+		
+	<!-- updateStutes 修改热门的审核状态  -->
+	<update id="UpdateHot">
+	 update cms_article set hot=${status} where id=${id}
+	</update>
+	
+	
+	
  
  
 </mapper>

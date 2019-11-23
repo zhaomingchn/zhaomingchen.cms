@@ -26,56 +26,10 @@
 </style>
 </head>
 <body>
- <div class="container-fluid" style="background-image:url('/resource/images/325392.jpg'); ">
-<!-- logo -->
-<nav class="navbar navbar-default" role="navigation"> 
-    <div class="container-fluid" style="min-height:60px;"> 
-        <div class="navbar-header" style="margin-top: 5px;" > 
-			<img alt="200x200" src="/resource/images/logo.png"/ style="width: 100px;height: 70px;">
-        </div> 
-        <ul class="nav navbar-nav navbar-right"> 
-             <li>    <div class="container-fluid" style="width:500px;height: 50px;margin-top: 13px; margin-right: 500px;">
-    <!-- 模糊查询 -->
-    <div class="navbar-header" >
-        <a class="navbar-brand" href="#">输入姓名</a>
-    </div>
-    <div>
-      <form class="navbar-form navbar-left" role="search">
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search">
-            </div>
-            <input type="button" class="btn btn-default" value="查询"/>
-        </form>
-    </div>
-   </div>
-   </li>
-            <li style="margin-top: 8px;"><a href="java"><span class="glyphicon glyphicon-user"></span>注册</a></li> 
-            <li style="margin-top: 15px;">
-    <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
-                 用户
-        <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-        <li role="presentation" class="dropdown-header">下拉菜单标题</li>
-        <li role="presentation">
-            <a role="menuitem" tabindex="-1" href="#">Java</a>
-        </li>
-        <li role="presentation">
-            <a role="menuitem" tabindex="-1" href="#">数据挖掘</a>
-        </li>
-        <li role="presentation">
-            <a role="menuitem" tabindex="-1" href="#">数据通信/网络</a>
-        </li>
-        <li role="presentation" class="divider"></li>
-        <li role="presentation" class="dropdown-header">下拉菜单标题</li>
-        <li role="presentation">
-            <a role="menuitem" tabindex="-1" href="#">分离的链接</a>
-        </li>
-    </ul>
-   </li>
-        </ul> 
-    </div> 
-</nav>
+  
+     <nav class="navbar navbar-default" style="background:#000099">
+	<%@include  file="../common/top.jsp"%>
+     </nav>
 
    <!--大概信息 -->
 <div class="container-fluid" style="background: ; margin-top:30px;">
@@ -124,6 +78,28 @@
 					</div>
 				</div>
 				</c:forEach>
+				<ul class="pagination">
+
+								    <li><a href="channel?id=${chnId}&cid=${categoryId}&pageNum=${articles.prePage}">&laquo;</a></li>
+
+								    <c:forEach begin="${articles.pageNum-2 > 1 ? articles.pageNum-2:1}" end="${articles.pageNum+2 > articles.pages ? articles.pages:articles.pageNum+2}" varStatus="index">    		
+
+								    	<c:if test="${articles.pageNum!=index.index}">
+
+								    		<li><a href="channel?id=${chnId}&cid=${categoryId}&pageNum=${index.index}">${index.index}</a></li>
+
+								    	</c:if>
+
+								    	<c:if test="${articles.pageNum==index.index}">
+
+								    		<li><a href="channel?id=${chnId}&cid=${categoryId}&pageNum=${index.index}"><strong> ${index.index} </strong> </a></li>
+
+								    	</c:if>
+
+								    </c:forEach>
+								    <li><a href="channel?id=${chnId}&cid=${categoryId}&pageNum=${articles.nextPage}">&raquo;</a></li>
+
+								</ul>
     </div>
     
       </div>

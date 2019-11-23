@@ -51,7 +51,7 @@
 
 		<div class="form-group row ">
 			<textarea name="content1" cols="100" rows="8"
-				style="width: 860px; height: 250px; visibility: hidden;"><%=htmlspecialchars(htmlData)%></textarea>
+				style="width: 860px; height: 250px; visibility: hidden;"></textarea>
 			<br />
 		</div>
 		<div class="form-group row ">

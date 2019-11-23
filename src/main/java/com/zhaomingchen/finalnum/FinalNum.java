@@ -16,6 +16,18 @@ public class FinalNum {
 	public static final String USER_KEY="SESSION_USER_KEY";
 	
 	
+	// 定义状态
+	// 最新文章
+	public static final int NUM=1;
+	
+	public static final int NUM1=2;
+	
+	public static final int NUM2=3;
+	
+	public static final int NUM3=4;
+	
+	
+	
 	
 
 }

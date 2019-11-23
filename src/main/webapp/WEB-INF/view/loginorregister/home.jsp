@@ -16,7 +16,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-    <jsp:include page="/WEB-INF/view/common/top.jsp"></jsp:include>
+   <nav class="navbar navbar-default" style="background:#000099">
+	<%@include  file="../common/top.jsp" %>
+</nav>
 <!-- 导航条 -->
 <div class="container">
 	<div class="row" style="margin-top: 100px; ">
