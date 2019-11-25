@@ -60,6 +60,12 @@ public class LoginorRegisterController {
 		return "/loginorregister/home";
 	}
 	
+	// 跳转到用户管理文章界面
+		@RequestMapping("home.do")
+		public String Home(HttpServletRequest request) {
+			return "redirect:home";
+		}
+	
 	/**
 	 * 
 	 * @Title: userLogin 

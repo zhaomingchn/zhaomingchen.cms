@@ -23,7 +23,7 @@
 	    
 	 
 		<h2>   
-			${article.title}
+			${article.title} <button style="font-size: 20px;" onclick="collects(${article.id})">收藏</button>
 		</h2>
 		<h5>
 			作者：${article.user.username} 
@@ -99,7 +99,6 @@
 							}
 						}
 					  )
-			 
 		 }else{ 
 			 var url="upindex1.do";
 			 
@@ -136,6 +135,28 @@
 				  )
 	  }
       
+	  function collects(id){
+		  
+		  if(${sessionScope.SESSION_USER_KEY!=null}){
+			  $.post(
+						"collect.do",
+						{id:id},
+						function(msg){
+							if(msg){
+								alert("收藏成功");
+								location.reload();
+							}else{
+								alert("对不起,你已经收藏了这篇文章");
+							}
+						}
+						)
+		  }else{
+				 var url="upindex1.do";
+				  $("#up").load(url); 
+		  }
+			  
+		  
+	  }
  
 	
 

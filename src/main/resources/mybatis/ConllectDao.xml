@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhaomingchen.dao.ConllectDao">
+  
+  <resultMap type="Collect" id="co">
+   <id column="id" property="id"/>
+   <association property="user" column="userId" select="com.zhaomingchen.dao.UserDao.getById"></association>
+   <association property="article" column="articleId" select="com.zhaomingchen.dao.ArticleDao.getArticelById"></association>
+   
+  </resultMap>
+
+ 
+  <select id="getCollectByid" resultType="Collect">
+  select * from cms_collect where articleId=#{id}  and userId=#{id2} limit 1
+  
+  </select>
+  
+  <insert id="addaddCollect">
+   insert into cms_collect set userId=#{id2},articleId=#{id},created=now()
+  </insert>
+  <select id="getList" resultMap="co">
+  select * from cms_collect where userId=#{id}
+  </select>
+  
+</mapper>

@@ -61,7 +61,9 @@ public interface ArticleDao {
 			+ " values("
 			+ " #{title},#{content},#{picture},#{channelId},#{categoryId},"
 			+ "#{userId},#{hits},#{hot},#{status},#{deleted},"
-			+ "now(),now(),#{commentCnt},#{articleType})")
+			+ "now(),now(),#{commentCnt},"
+			+ "#{articleType,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler,"
+			+ "jdbcType=INTEGER,javaType=com.zhaomingchen.finalnum.TypeEnum})")
 	 int add(Article article);
 
 
@@ -140,6 +142,9 @@ public interface ArticleDao {
 
     @Update("update cms_article set num=num+1 where id=${value}")
 	void addNum(Integer id);
+
+
+	List<Article> imgArticles();
 
 	
 	

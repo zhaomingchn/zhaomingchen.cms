@@ -9,6 +9,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  	<result property="channelId" column="channel_id"/>
 		<result property="categoryId" column="category_id"/>
 		<result property="userId" column="user_id"/>
+			<result property="articleType" column="articleType" 
+		   typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"
+			jdbcType="INTEGER" javaType="com.zhaomingchen.finalnum.TypeEnum"
+		/>
  <association property="user" column="user_id" select="com.zhaomingchen.dao.UserDao.getById" ></association>
  <association property="category" column="category_id" select="com.zhaomingchen.dao.CategoryDao.getByid" ></association>
  <association property="channel" column="channel_id" select="com.zhaomingchen.dao.ChannelDao.findById" ></association>
@@ -51,7 +55,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 	<select id="getPostList" resultMap="articleMapper">
 		SELECT id,title,picture,channel_id,category_id,hits,commentCnt,created,status,user_id,hot
 			FROM cms_article 
-			WHERE deleted=0  /
+			WHERE deleted=0  
 			<if test="value != -1 ">
 				AND status = #{value}
 			</if>
@@ -77,6 +81,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	
+	<!-- 获取最新图片信息 -->
+   <select id="imgArticles" resultMap="articleMapper" >
+		SELECT id,title,picture,channel_id,category_id,user_id,hits,commentCnt,created,articleType
+			FROM cms_article 
+			WHERE deleted=0 AND status=1 AND articleType=1
+			ORDER BY created DESC
+			LIMIT 5 
+	</select>
 	
  
  

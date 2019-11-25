@@ -98,6 +98,15 @@ public interface ArticleService {
 	 */
 	void addNum(Integer id);
 	
+	/**
+	 * 
+	 * @Title: imgArticles 
+	 * @Description: 获取图片文章信息
+	 * @return
+	 * @return: List<Article>
+	 */
+	List<Article> imgArticles();
+	
 	
 
 }

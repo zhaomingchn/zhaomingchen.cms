@@ -1,5 +1,6 @@
 package com.zhaomingchen.controller;
 
+import java.lang.ProcessBuilder.Redirect;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,15 +13,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
+import com.google.gson.Gson;
 import com.zhaomingchen.entity.Article;
 import com.zhaomingchen.entity.Category;
 import com.zhaomingchen.entity.Channel;
+import com.zhaomingchen.entity.Collect;
 import com.zhaomingchen.entity.Comment;
+import com.zhaomingchen.entity.Image;
 import com.zhaomingchen.entity.User;
+import com.zhaomingchen.finalnum.CmsAssert;
 import com.zhaomingchen.finalnum.FinalNum;
+import com.zhaomingchen.finalnum.TypeEnum;
 import com.zhaomingchen.service.ArticleService;
 import com.zhaomingchen.service.CategoryService;
 import com.zhaomingchen.service.ChannelService;
+import com.zhaomingchen.service.CollectService;
 import com.zhaomingchen.service.CommentService;
 
 
@@ -43,6 +50,10 @@ public class IndexController {
 	// 评论
 	@Autowired
 	private CommentService comservice;
+	
+	// 收藏文章
+	@Autowired
+	private CollectService colservice;
 	/**
 	 * 
 	 * @Title: getChannel 
@@ -62,6 +73,11 @@ public class IndexController {
 		 // 获取 最新的文章
 		   List<Article> article = art.getArticel();
 		   m.addAttribute("article",article);
+		   
+		   // 获取图片最新文章信息
+		  List<Article> imgArticles=art.imgArticles();
+		   m.addAttribute("imgArticles",imgArticles);
+		   
 		  //获取热门的文章 
 		  PageInfo horList=art.gethorList(pageNum);
 		   m.addAttribute("hotList",horList);
@@ -81,11 +97,7 @@ public class IndexController {
 	 */
 	@RequestMapping("ByIdArticel.do")
 	public String ByIdArticel(Integer id,Model m,HttpServletRequest request,@RequestParam(defaultValue = "1")Integer PageNum,@RequestParam(defaultValue = "1")Integer flag){
-		System.out.println("-----------------------"+flag);
 	
-		 if(flag==1) {
-			 art.addNum(id);
-		 }
 		// 获取这个文章的所有信息
 		Article articel=art.getArticelByid(id);
 		m.addAttribute("article",articel);
@@ -172,6 +184,9 @@ public class IndexController {
 		   m.addAttribute("hotList",horList);
 		   List ss = horList.getList();
 		   // 获取频道下的节目所有节目
+		   // 获取图片最新文章信息
+			  List<Article> imgArticles=art.imgArticles();
+			   m.addAttribute("imgArticles",imgArticles);
 		    List<Category> list=cat.getCategory(id);
 		    m.addAttribute("list",list);
 		    // 回调函数 做高亮
@@ -234,6 +249,27 @@ public class IndexController {
 	}
 	
 	
+	@RequestMapping("collect.do")
+	@ResponseBody
+	public boolean Collects(Integer id,HttpServletRequest request) {
+		
+		// 获取session作用域里面的对象
+		User user = (User) request.getSession().getAttribute(FinalNum.USER_KEY);
+		
+		// 然后添加这篇文章
+		//先查询这篇文章是否已经存在
+		  Collect co=colservice.getCollectByid(id,user.getId());
+		  if(co==null){
+			  // 收藏
+			  colservice.addCollect(id,user.getId());  
+			  return true;
+		  }else {
+			  
+			  return false;
+		  }
+	}
+	
+	
 	
 	/**
 	 * 
@@ -245,9 +281,30 @@ public class IndexController {
 	
 	@RequestMapping("upindex1.do")
 	public  String upindex1() {
-
-		
 		return "/common/index1";
+	}
+	
+	
+	
+	@RequestMapping("showdetail")
+	public String showdetail(HttpServletRequest request,Integer id) {
+		
+		Article article = art.getArticelByid(id); 
+		CmsAssert.AssertTrue(article!=null, "文章不存在");
+		
+		
+		request.setAttribute("article",article);
+		if(article.getArticleType()==TypeEnum.HTML)
+			return  "redirect:ByIdArticel.do?id="+id;
+		else {
+			Gson gson = new Gson();
+			// 文章内容转换成集合对象
+			List<Image> imgs = gson.fromJson(article.getContent(), List.class);
+			article.setImges(imgs);
+			
+			return "/articel/detailimg";
+		}
+		
 	}
 	
 }

@@ -72,7 +72,7 @@
 		          	${sessionScope.SESSION_USER_KEY.username}
 		           <span class="caret"></span></a>
 		         <ul class="dropdown-menu ">
-		            <li><a href="">个人中心</a></li>
+		       <li><a href="home.do">个人中心</a></li>
 		            <li><a href="#">个人设置</a></li>
 		            <li><a href="#">修改头像</a></li>
 		            <li><a href="index">去主页面</a></li>
@@ -189,9 +189,20 @@
       </div>
       
       
-      <!--  面板 -->
+      
+				
       <div class="col-md-3" style="margin-left: 40px;">
       <div class="panel panel-primary">
+      <!-- 图片文章 -->
+      	<div class="panel-heading">
+						<h3 class="panel-title">图片文章</h3>
+					</div>
+					<div class="panel-body">
+						<c:forEach items="${imgArticles}" var="article" varStatus="index"> 
+							<a href="javascript:showArticle(${article.id})">${index.index+1}. ${article.title}</a>
+							<br/>
+						</c:forEach>
+					</div>
        <div class="panel-heading">
         <h2 class="panel-title" style="text-align: center; margin-top: 10px">最新文章</h2>
     </div>
@@ -216,12 +227,16 @@
 		      <p style="text-align: center; margin-top: 60px;">Euro icon: <span class="glyphicon glyphicon-euro">  所有版权归赵明晨所有</span></p>
 		</div>
 	</div>
-   </div> 
 <script type="text/javascript">
  
   function getArticelByid(id){
 		window.open("ByIdArticel.do?id="+id)
   }
+  
+  function showArticle(articleId){
+		window.open("showdetail?id="+articleId)
+	}
+  
 </script>
 </body>
 </html>

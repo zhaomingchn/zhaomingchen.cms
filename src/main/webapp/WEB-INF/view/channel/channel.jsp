@@ -105,7 +105,18 @@
       </div>
       <!--  面板 -->
       <div class="col-md-2" style="margin-left: 40px;">
+     
       <div class="panel panel-primary">
+         <!-- 图片文章 -->
+      	<div class="panel-heading">
+						<h3 class="panel-title">图片文章</h3>
+					</div>
+					<div class="panel-body">
+						<c:forEach items="${imgArticles}" var="article" varStatus="index"> 
+							<a href="javascript:showArticle(${article.id})">${index.index+1}. ${article.title}</a>
+							<br/>
+						</c:forEach>
+					</div>
        <div class="panel-heading">
         <h2 class="panel-title" style="text-align: center; margin-top: 10px">最新文章</h2>
     </div>

@@ -18,25 +18,25 @@
         <a class="navbar-brand" href="#">CMS系统</a>
     </div>
     <div>
-   			<c:if test="${USER_SESSION_KEY == null }">
+   			<c:if test="${sessionScope.SESSION_USER_KEY == null }">
 		        <ul class="nav navbar-nav navbar-right">
 			      <li><a href="Register"><span class="glyphicon glyphicon-user"></span>注册</a></li>
 			      <li><a href="login.do"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
 			    </ul>
 		     </c:if>
-	        <c:if test="${USER_SESSION_KEY != null }">
+	        <c:if test="${sessionScope.SESSION_USER_KEY != null }">
 	        <ul class="nav navbar-nav navbar-right">
 			   <li class="dropdown">
 			      <a class="dropdown-toggle glyphicon glyphicon-user" data-toggle="dropdown" href="#">
-			         欢迎您:${USER_SESSION_KEY.username}<span class="caret"></span>
+			         欢迎您:${sessionScope.USER_SESSION_KEY.username}<span class="caret"></span>
 			      </a>
 			      <ul class="dropdown-menu">
 			      		<!-- 点击个人中心  跳转到用另一个页面 -->
-			         <li><a href="javaScript:user()">个人中心</a></li>
+			         <li><a href="home.do">个人中心</a></li>
 			         <li><a href="#">个人信息</a></li>
 			         <li><a href="#">设置</a></li>
 			         <li class="divider"></li>
-			         <li><a href="javaScript:exit()">退出</a></li>
+			         <li><a href="exit.do">退出</a></li>
 			      </ul>
 			   </li>
 			</ul>
@@ -67,13 +67,15 @@
 	</div>
 </div>
 
-<nav class="navbar navbar-inverse navbar-fixed-bottom" 
-role="navigation">
+<nav class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
 	<div align="center"> <font color="blue" size="5"> ----八维大数据学院1707D--- </font> </div>
 </nav>
 
 <script type="text/javascript">
 	function showFuction(url){
+		$("#content").load(url)
+	}
+	function showF(url){
 		$("#content").load(url)
 	}
 </script>

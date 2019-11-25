@@ -29,6 +29,8 @@
 			 <li class="list-group-item list-group-item-info">我的评论</li>
 			 <li class="list-group-item list-group-item-info">投票管理</li>
 			 <li class="list-group-item list-group-item-info">个人设置</li>
+			 <li class="list-group-item list-group-item-info" data="/user/collect">我的收藏</li>
+			 <li class="list-group-item list-group-item-info" data="/user/postImg">发布图片</li>
 			</ul>
 		</div>
 		<div class="col-md-9" id="content">

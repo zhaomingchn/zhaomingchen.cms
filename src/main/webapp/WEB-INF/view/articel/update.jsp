@@ -110,7 +110,7 @@
 			   }
 		   }else{
 			   // 获取数据失败
-			   alert(data.errorMsg);
+			   alert(data.error);
 		   }
 	   },"json"
 	   )

@@ -3,6 +3,7 @@ package com.zhaomingchen.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -22,16 +23,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageInfo;
+import com.google.gson.Gson;
 import com.zhaomingchen.entity.Article;
 import com.zhaomingchen.entity.Category;
 import com.zhaomingchen.entity.Channel;
+import com.zhaomingchen.entity.Collect;
+import com.zhaomingchen.entity.Image;
 import com.zhaomingchen.entity.User;
 import com.zhaomingchen.finalnum.CmsAssert;
 import com.zhaomingchen.finalnum.FinalNum;
 import com.zhaomingchen.finalnum.MsgResult;
+import com.zhaomingchen.finalnum.TypeEnum;
 import com.zhaomingchen.service.ArticleService;
 import com.zhaomingchen.service.CategoryService;
 import com.zhaomingchen.service.ChannelService;
+import com.zhaomingchen.service.CollectService;
 import com.zhaomingchen.service.UserService;
 @Controller
 @RequestMapping("user")
@@ -63,6 +69,9 @@ public class UserController {
 	
 	@Autowired
 	private CategoryService cateservice;
+	
+	@Autowired
+	private CollectService coservice;
 	   /**
 	    * 
 	    * @Title: getArticlerUser 
@@ -151,7 +160,6 @@ public class UserController {
 	  public Object getCategoryByChannel(int chnId) {
 		  
 		  List<Category> categories = cateservice.getCategory(chnId);
-		  System.out.println("--------------------------");
 		  return new MsgResult(1, "对不起，没有获取这个数据", categories);
 		  
 	  }
@@ -219,13 +227,13 @@ public class UserController {
 		 File pathFile = new File(updloadPath+"/"+path);
 		 // 查看有没有这个文件夹 如果没有就创建
 		 if(!pathFile.exists()) {
-			 pathFile.mkdirs();
+			 pathFile.mkdir();
 		 }
 		 
 		 // 获取最终的文件名称
 	String newFileName = updloadPath+"/"+path+"/"+string;
 	// 赋值到
-	 file.transferTo(new File(string));	
+	 file.transferTo(new File(newFileName));	
 	 
 	 return path+"/"+string;
 		
@@ -292,6 +300,85 @@ public class UserController {
 				 return new MsgResult(0,"",null);
 			 }
    }
+   
+   
+   /**
+    * 
+    * @Title: collectList 
+    * @Description: 用户自己的收藏
+    * @param request
+    * @param pageNum
+    * @return
+    * @return: String
+    */
+   @RequestMapping("collect")
+   public String collectList(HttpServletRequest request,@RequestParam(defaultValue = "1")Integer pageNum) {
+	   
+	   // 获取session 作用于里面的user 对象 然后获取对象
+	   
+	   User user = (User) request.getSession().getAttribute(FinalNum.USER_KEY);
+	   // 查询这个用户收藏的文章
+	    PageInfo list=coservice.getList(user.getId(),pageNum);
+	    request.setAttribute("p",list);
+	   return  "/loginorregister/collect";
+   }
+   
+   @RequestMapping("delCollect")
+   @ResponseBody
+    public boolean delCollect(Integer id) {
+	   
+	   coservice.deleteCollect(id);
+	   
+	   return true;
+   }
+   
+   
+    @GetMapping("postImg")
+    public String postImg(HttpServletRequest request) {
+    	
+    	// 先获取所有频道
+    	List<Channel> channel = Cservice.getChannel();
+    	request.setAttribute("channels",channel);
+    	
+    	return "/articel/postimg";
+    }
+    
+     @PostMapping("postImg")
+     @ResponseBody
+     public MsgResult postImgs(HttpServletRequest request,Article article,
+ 			MultipartFile file[],String desc[]) throws Exception {
+ 		
+ 		User loginUser = (User)request.getSession().getAttribute(FinalNum.USER_KEY);
+ 		
+ 		
+ 		List<Image> list = new ArrayList<>();
+ 		// 遍历处理每个上传图片 并存入list
+ 		for (int i = 0; i < file.length && i < desc.length; i++) {
+ 			String url = ProcessFile(file[i]);
+ 			Image image = new Image();
+ 			image.setDesc(desc[i]);
+ 			image.setUrl(url);
+ 			list.add(image);
+ 		}
+ 		
+ 		//
+ 		Gson gson = new Gson();
+ 		
+ 		//设置作者
+ 		article.setUserId(loginUser.getId());
+ 		article.setContent(gson.toJson(list));
+ 		//设置文章类型 是图片
+ 		article.setArticleType(TypeEnum.IMG);
+ 		
+ 		int add = Atservice.add(article);
+ 		if(add > 0) {
+ 			return new MsgResult(1,"发布成功11",null);
+ 		}else {
+ 			return new MsgResult(2,"发布失败11",null);
+ 		}
+ 		
+ 	}
+    
 	
 	/**
 	 * 

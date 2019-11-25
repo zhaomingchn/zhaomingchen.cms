@@ -32,7 +32,7 @@
 <div class="popOut">
 	<span title="关闭">x</span>
 <form action="logins.do" method="post">
-	<p style="text-align: cneter;">${error}</p>
+	<p style="text-align:cneter; color:red;" >${error}</p>
 	<table>
 		<caption>对不起,还没有登录,请先登录
 	

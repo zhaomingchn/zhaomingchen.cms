@@ -156,6 +156,12 @@ public class ArticleServiceimpl implements ArticleService {
 		// TODO Auto-generated method stub
 		dao.addNum(id);
 	}
+
+	@Override
+	public List<Article> imgArticles() {
+		// TODO Auto-generated method stub
+		return dao.imgArticles();
+	}
 	
 	
 	
